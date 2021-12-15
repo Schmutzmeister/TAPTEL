@@ -1,0 +1,67 @@
+
+<div class="container container1">
+    <div class="row">
+
+        <div class="upload container-fluid">
+            <p>Upload your DFD Export from Threat Dragon</p>
+
+            <input class="btn-primary btn " type="file" (change)="onFileSelected($event)" class="file-upload" onchange="console.log(event.target.files)">
+            <button class="btn btn-primary" type="button" (click)="onUpload()">Upload</button>
+        </div>
+
+
+    </div>
+
+  
+
+</div>
+<div class="container-fluid container2">
+  <div id='cydfd'></div>>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Element Attributes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">DFDElement Label</label>
+        <input type="string" class="form-control" id="exampleFormControlInput1" [(ngModel)]="selectedElement.label" name="label" placeholder={{selectedElement.label}}>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">DFDElement Type</label>
+        <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="selectedElement.eleType" name="type">
+            <option>{{selectedElement.eleType}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">User Data of DFD Element</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="selectedElement.datafields" name="data"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+
+
+
+<div>
+  <button style="position: fixed; right: 20px; bottom: 1px; z-index: 2000;" class="botnavitem btn btn-primary" type="button" (click)="loadMockData()">Load Example Data  </button>
+</div>
+
+
+<!--
+
+Bugs:
+DFD is not rendered when returning to DFD-Import
+import.ts needs to check if Diagramm is set in Dataservice and if yes load from there + render
+labels in Diagramm are cut off
+
+
+-->

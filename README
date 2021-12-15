@@ -1,0 +1,23 @@
+########## Quick Setup for TAPTEL ##################
+//Install NodeJs (depends on OS and Distro)
+cd linddun-tool-support-taptel
+npm install
+ng serve
+visit http://localhost:4200/
+
+########## Install NodeJs Using Ubuntu #############
+//NodeJS 17.x might not work
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+########## Angular Cli (for development)############
+npm install -g @angular/cli
+
+########## Install Module Dependencies #############
+npm install
+
+########## UPDATE DOCUMENTATION ####################
+npm install -g @compodoc/compodoc    
+npm run compodoc
+
+

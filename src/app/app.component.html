@@ -1,0 +1,38 @@
+
+<nav class="nav nav-pills fixed-top nav-fill">
+
+  <a class="nav-link" routerLink="/welcome">Home</a>
+  <a class="nav-link" routerLink="/dfd-import">1.DFD-Import</a>
+  <div class= "nav-link2 nav-link" *ngIf="ds.dataImported"><a class="nav-link" routerLink="/mapping">2.Mapping</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="!ds.dataImported"><a class="nav-link disabledLink" routerLink={{this.router.url}} ngbPopover ="Please complete Step 1 first">2.Mapping</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="ds.treesGenerated"><a class="nav-link" routerLink="/elicit">3.Threat Tree Analysis</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="!ds.treesGenerated"><a class="nav-link" routerLink={{this.router.url}} ngbPopover ="Please complete Step 2 first">3.Threat Tree Analysis</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="ds.misuseGenerated" ><a class="nav-link" routerLink="/misuse">4. Misuse Cases</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="!ds.misuseGenerated"><a class="nav-link" routerLink={{this.router.url}} ngbPopover ="Please complete Step 3 first">4. Misuse Cases</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="ds.mappingVisited" ><a class="nav-link" routerLink="/print">Export PDF</a></div>
+  <div class= "nav-link2 nav-link" *ngIf="!ds.mappingVisited"><a class="nav-link" routerLink={{this.router.url}} ngbPopover ="Please complete Step 3 first">Export PDF</a></div>
+</nav>
+<div class="placeholder1">
+</div>
+
+
+<div class=" bottomnav fixed-bottom">
+  <div class="row">
+    <div class="fileUpload btn btn-primary" style="left : 20px; margin: 0cm;">
+      <span>Load Project</span>
+      <input type="file" class="upload" (change)="loadProject($event)"/>
+  </div>
+    <!--<input class="btn-primary btn " type="file" (change)="loadProject($event)" class="file-upload" onchange="console.log(event.target.files)">-->
+    <button class="botnavitem btn btn-primary" type="button" (click)="saveProject()">Save Project</button>
+    <h1 class="botnavitem botnavtitle title">{{title}}</h1>
+  </div>
+
+</div>
+
+
+
+
+<router-outlet class="routero"></router-outlet>
+
+<div class="placeholder1">
+</div>

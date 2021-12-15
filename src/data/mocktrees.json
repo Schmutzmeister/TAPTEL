@@ -1,0 +1,127 @@
+{
+    "trees":[
+       {
+          "id":"L_df",
+          "label":"Linkability of Data Flow",
+          "explain":"Linkability of Data Flow is a serious threat, see linkability of contextual data and linkability of content",
+          "operator":"",
+          "childs":[
+             {
+                "id":"L_df1",
+                "label":"Linkability of transactional data",
+                "explain":"Linkability of transactional data explained",
+                "operator":"and",
+                "childs":[
+                   {
+                      "id":"PID_df",
+                      "label":"Privacy Information Disclosure",
+                      "explain":"Privacy Information Disclosure is an inbound Threat from another Tree",
+                      "operator":"",
+                      "childs":[
+                         
+                      ]
+                   },
+                   {
+                      "id":"L_ds2",
+                      "label":"Insufficient Minimization",
+                      "explain":"Insufficient Minimazation is an inbound Threat from another Tree L_ds2, check the Dataflows associated with this Element",
+                      "operator":"",
+                      "childs":[
+                         
+                      ]
+                   }
+                ]
+             },
+             {
+                "id":"L_df2",
+                "label":"Linkability of contextual data",
+                "explain":"Linkability of contextual data explained",
+                "operator":"",
+                "childs":[
+                   {
+                      "id":"L_df3",
+                      "label":"non-anonymous communication linked",
+                      "explain":" stuff like ip address, timing etc.",
+                      "operator":"",
+                      "childs":[
+                         
+                      ]
+                   },
+                   {
+                      "id":"L_df4",
+                      "label":"Insecure Anonymity System deployed",
+                      "explain":"your anonymity system can be insecure because",
+                      "operator":"",
+                      "childs":[
+                         
+                      ]
+                   }
+                ]
+             }
+            ]
+
+          },
+          {
+            "id":"L_ds",
+            "label":"Linkability of Data Store",
+            "explain":"Linkability of Data Store is a serious threat",
+            "operator":"",
+            "childs":[
+               {
+                  "id":"L_df1",
+                  "label":"Linkability of transactional data",
+                  "explain":"Linkability of transactional data explained",
+                  "operator":"and",
+                  "childs":[
+                     {
+                        "id":"PID_df",
+                        "label":"Privacy Information Disclosure",
+                        "explain":"Privacy Information Disclosure is an inbound Threat from another Tree",
+                        "operator":"",
+                        "childs":[
+                           
+                        ]
+                     },
+                     {
+                        "id":"L_ds2",
+                        "label":"Insufficient Minimization",
+                        "explain":"Insufficient Minimazation is an inbound Threat from another Tree L_ds2, check the Dataflows associated with this Element",
+                        "operator":"",
+                        "childs":[
+                           
+                        ]
+                     }
+                  ]
+               },
+               {
+                  "id":"L_df2",
+                  "label":"Linkability of contextual data",
+                  "explain":"Linkability of contextual data explained",
+                  "operator":"",
+                  "childs":[
+                     {
+                        "id":"L_df3",
+                        "label":"non-anonymous communication linked",
+                        "explain":" stuff like ip address, timing etc.",
+                        "operator":"",
+                        "childs":[
+                           
+                        ]
+                     },
+                     {
+                        "id":"L_df4",
+                        "label":"Insecure Anonymity System deployed",
+                        "explain":"your anonymity system can be insecure because",
+                        "operator":"",
+                        "childs":[
+                           
+                        ]
+                     }
+                  ]
+               }
+              ]
+  
+            }
+       ]
+    
+ }

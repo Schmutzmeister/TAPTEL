@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .site-layout {
+            position: fixed;
+            z-index: 2000;
+            width: 100%;
+            top: 65px;
+            display: grid;
+            border-radius: 9px;
+            border: none;  
+            height: calc(100vh - 130px);
+            grid-template-columns: 300px 1fr 300px 1fr ;
+            grid-template-rows: 35px 1fr;
+            grid-template-areas:
+            "mcLiT       mcDeT        asLiT        asDeT"
+            "mcLi        mcDe         asLi         asDe";
+
+        }
+        li {
+            width: 95%;
+            position: relative;
+            cursor: pointer;
+            color: black;
+            background-color: lightgray;
+            padding: 4px;
+            margin: 0cm;
+            text-align: left;
+        }
+        .assumptionName{
+            display: block; /* may help stop any text wrapping and display it inline. */
+            white-space: nowrap;/* ensure no wrapping */
+            overflow: hidden; /* if for some reason it escapes the visible area don't display anything. */
+
+        }
+        li:hover {
+            left: .1em;
+            background-color: gray;
+        }
+        li.selected {
+            background-color: black;
+            color: white;
+        }
+        .ListContainer{
+            border: none;
+        }
+
+        .DetailsContainer{
+            border-radius: 9px;
+            border: solid black 1px;
+            margin: 3px;
+            background-color: #d1d1d1;        
+        }
+    </style>
+
+</head>
+<body>
+    <div *ngIf="dataservice.misuseGenerated"class="site-layout">
+        <h1 class="lw" style="grid-area:mcLiT; text-align: center;">Misusecase List</h1>
+        <div class = "ListContainer" style="grid-area: mcLi; background-color : white; overflow-y: scroll;">
+            <ul class="misuseCases" style= "padding-left: 10px;">
+                <li *ngFor="let MC of misuseCases" class="btn btn-secondary waves-effect waves-light treeListItem " style="display: block; white-space: nowrap; overflow: hidden;" ngbPopover ="{{MC.id}} - {{MC.activTree.rootNode.nodeId}} - {{MC.activTree.parentDfd.label}}" triggers = "mouseenter:mouseleave"
+                  [class.selected]="MC === selectedMis"
+                  (click)="onSelectMis(MC)">
+                  <span class="label" >MUC{{MC.id}} - {{MC.activTree.rootNode.nodeId}} - {{MC.activTree.parentDfd.label}}</span>
+                </li>
+              </ul>
+        </div>
+        <h1 class="lw" style="grid-area:mcDeT; text-align: center;">MisuseCase Details</h1>
+        <div class = "DetailsContainer" style="grid-area: mcDe; background-color: lightgray; padding: 5px;overflow: scroll;">
+            <div *ngIf = "selectedMis" class = " selectedAddDetails">
+                <h1 style="text-align: center;">{{selectedMis.id}} - {{selectedMis.activTree.rootNode.label}}<br>{{selectedMis.activTree.parentDfd.label}}</h1>
+ 
+                <div>
+                    <p style="margin-bottom: 0;"><b>Main Threat Tree: </b></p>
+                    <p style = "padding-left: 15px;">{{selectedMis.activTree.rootNode.nodeId}} - {{selectedMis.activTree.rootNode.label}} - {{selectedMis.activTree.parentDfd.label}}</p> <!--break nach jedem item-->
+                </div>
+
+                <div>
+                    <p style="margin-bottom: 0;"><b>Misactors: </b></p>
+                    <p *ngFor="let misactor of selectedMis.getMisactors()"style = "padding-left: 15px; margin:0;">{{misactor}}</p> <!--break nach jedem item-->
+                </div>
+
+                <div>
+                    <p style="margin-bottom: 0;"><b>Affected Data:</b></p>
+                    <p style = "padding-left: 15px;">{{selectedMis.activTree.parentDfd.datafields}}</p><!-- string.replace \n-->
+                </div>
+                
+                <p style="margin-bottom: 0;"><b>Active Threat Nodes</b></p>
+                <div *ngFor="let n of selectedMis.activNodes" style = "padding-left: 15px;">
+                    <div>
+                        <p style="margin-top: 10px;"><b>{{n.nodeId}} - {{n.tree.parentDfd.label}} - {{n.label}} </b></p>
+                        <p style = "padding-left: 15px;margin-bottom: 0;" *ngFor =" let checkbox of getCheckboxesAsColl(n.checkboxes)"> - {{checkbox}}</p>
+                        <p *ngIf="n.comment != ''" style = "padding-left: 15px;"><b>Comment:</b> {{n.comment}}</p>
+                    </div>
+                </div>
+                <textarea [(ngModel)]="selectedMis.commentMisuse" rows="5" cols="60" placeholder="Any thoughts you want to document about this Misuse Case?"></textarea>
+
+            </div>
+        </div>
+
+        <h1 class="lw" style="grid-area:asLiT; text-align: center;">Assumption List</h1>
+        <div class = "ListContainer" style="grid-area: asLi; background-color: white; overflow: scroll;">
+            <ul class="assumptions" style = "padding-left: 10px">
+                <li *ngFor="let ass of assumptions " style ="height : 30px;"class="btn btn-secondary waves-effect waves-light treeListItem "ngbPopover ="{{ass.scope}} {{ass.name}}" triggers = "mouseenter:mouseleave"
+                    [class.selected]="ass === selectedAss"
+                    (click)="onSelectAss(ass)">
+                    <label class="assumptionName"><b>A{{ass.id}} - {{ass.scope}} </b>{{ass.name}}</label>
+                </li>
+            </ul>
+            <h3 *ngIf="newAssumptions!=null&&newAssumptions.length>0" style = "text-align: center;font-size: 20px;"><b> Assumptions from TreeNodes</b></h3>
+            <ul class="newassumptions" style = "padding-left: 10px">
+                <li *ngFor="let ass of newAssumptions " style ="height : 30px;"class="btn btn-secondary waves-effect waves-light treeListItem "ngbPopover ="{{ass.scope}} {{ass.name}}" triggers = "mouseenter:mouseleave"
+                    [class.selected]="ass === selectedAss"
+                    (click)="onSelectAss(ass)">
+                    <label class="assumptionName"><b>NA{{ass.id}} - {{ass.scope}} </b>{{ass.name}}</label>
+                </li>
+            </ul>
+        </div>
+
+        <h1 class="lw" style="grid-area:asDeT; text-align: center;">Assumption Details</h1>
+        <div class = "DetailsContainer" style="grid-area: asDe; padding: 10px;">
+            <div *ngIf = "selectedAss" class = " selectedAddDetails">
+                <h1>{{selectedAss.id}} - {{selectedAss.name}}<br></h1>
+                <p><b>Affected Scope:</b> {{selectedAss.scope}}<br></p>
+                <p><b>Description:</b></p>
+                <textarea [(ngModel)]="selectedAss.description" rows="10" cols="60" placeholder="Any thoughts you want to document about this Assumption?"></textarea>
+                
+            </div>
+    
+        </div>
+    </div>
+ 
+
+</body>
+</html>

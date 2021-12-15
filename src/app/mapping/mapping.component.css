@@ -1,0 +1,94 @@
+
+.headerCol{
+    width: 50px;
+}
+.table{
+    border: 3;
+}
+.table1{
+    border:10;
+    margin-top: 20px;
+}
+.assumptionName{
+    width: 40%;
+
+}
+.assumtionInput{
+    float: right
+}
+.button.button123{
+  border: 1px;
+  height: 50px;
+  width: 50px;
+  color: white;
+  padding: 20px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: .1em;
+}
+.td{
+    height: 30px;
+    min-height: 100%;
+}
+tr{
+
+    width: 100%;
+}
+h1{
+    width: 100%;
+    text-align: center;
+}
+#table1{
+    position: relative;
+    width: 100%;
+    padding-bottom: 100px;
+}
+.ro {
+  border: 1px;
+  border-color: black;
+  color: green;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: Gray;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+
+
+
+.bottomnav{
+    height: 40px;
+  }
+  
+.botnavitem{
+position:sticky;
+margin-right: 0px;
+margin-left: 30px;
+}
+.rowbotnav{
+padding-left: 80%;
+}
+
+.headerCol{
+    background: white;
+    top: 60px;
+}
+.assumptionBox{
+    overflow:scroll;
+    top: 60px;
+    padding-bottom: 60px;
+
+}
+.assumptionBoxItem{
+
+    border: black solid 1px;
+    background: lightgray;
+    border-radius: 9px;
+    padding: 3px;
+}

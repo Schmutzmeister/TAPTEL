@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div *ngIf = "dataservice.treesGenerated" class="site-layout">
+        <!--<p class="lw" style="grid-area: title;">Thread Elicitation</p>-->
+        <div style="grid-area: sidebar; overflow: scroll;">
+            <ul class="Threats">
+
+
+
+                <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" *ngFor="let ele of this.dataservice.elements">
+                    <ngb-panel>
+                      <ng-template ngbPanelTitle>
+                        <span class= "head"> <b>{{ele.eleType}} - {{ele.label}}</b></span>
+                      </ng-template>
+                      <ng-template ngbPanelContent >
+                        <div *ngFor="let tree of ele.trees">
+                            <li *ngIf = "tree.rootNode.state==true" style="background-color: #ff9999" class="btn btn-secondary waves-effect waves-light " 
+                            [class.selected]="tree === selectedTree"
+                            (click)="onSelectTree(tree)">
+                            <b>{{tree.rootNode.templateNode.nodeId}} </b> <br/>{{tree.parentDfd.label}}
+                            </li>
+                            <li *ngIf = "tree.rootNode.state==false" class="btn btn-secondary waves-effect waves-light treeListItem" 
+                            [class.selected]="tree === selectedTree"
+                            (click)="onSelectTree(tree)">
+                            <b>{{tree.rootNode.templateNode.nodeId}} </b> <br/>{{tree.parentDfd.label}}
+                            </li>
+                        </div>
+                      </ng-template>
+                    </ngb-panel>
+                </ngb-accordion>
+              </ul>
+        </div>
+        <div style="grid-area: threats;">
+            <app-treeview *ngIf="selectedTree" class = 'treeViewContainer' [tree]="selectedTree" [redraw]= "updatedNode" (selectNodeEvent)=selectNode($event)></app-treeview>
+        </div>
+        <div style="grid-area: left; overflow: scroll;">
+            <div *ngIf = "selectedNode" class="container">
+                <h2>{{selectedNode.templateNode.nodeId}} - {{selectedNode.templateNode.label}} - {{selectedNode.tree.parentDfd.label}}</h2>
+                <h2 *ngIf = "selectedNode.tree.parentDfd.eleType == 'flow'">{{getSrcToDstString(selectedNode.tree.parentDfd)}}</h2>
+                <div *ngIf = "!selectedNode.isInbound; else elseBlock"><p>{{selectedNode.templateNode.explainText}}</p></div>
+                <ng-template #elseBlock>
+
+                    <div *ngIf = "selectedNode.templateNode.nodeId.split('_')[0] != 'ID'; else elseBlockID">
+                        <p>
+                            This selected node is an inbound node from another tree. If the inbound node is from the same DFD Element ' {{selectedNode.tree.parentDfd.label}}', then the state of the node will be propagated automatically. Otherwise you need to inspect the possible matching outbound nodes and decide for yourself if this inbound node should be an active threat in this tree:
+                        </p>
+                        <div class="treeListContainer container">
+                            <ol *ngIf = "potentialOutboundNodes" class="treeList">
+                                <div *ngFor="let node of potentialOutboundNodes">
+                                    <li *ngIf = "node.state==true" style="background-color: #ff9999" class="btn btn-secondary waves-effect waves-light treeListItem " 
+                                    [class.selected]="node.tree === selectedTree"
+                                    (click)="onSelectTree(node.tree,true)">
+                                    <b>{{node.templateNode.nodeId}} </b> active<br/>{{node.tree.parentDfd.label}}
+                                    </li>
+                                    <li *ngIf = "node.state==false" style="background-color: aliceblue" class="btn btn-secondary waves-effect waves-light treeListItem" 
+                                    [class.selected]="node.tree === selectedTree"
+                                    (click)="onSelectTree(node.tree,true)">
+                                    <b>{{node.templateNode.nodeId}} </b> inactive<br/>{{node.tree.parentDfd.label}}
+                                    </li>
+                                </div>
+                                
+                            </ol>
+                        </div>
+                    </div>
+                    <ng-template #elseBlockID>
+                        <p style="color:tomato">
+                            <b>The Information Disclosure Node is an Inbound Node from the Microsoft <b>STRIDE</b> Methodology for Security. STRIDE Analysis is not supported by TAPTEL. Please conduct a seperate security assessment. </b>
+                        </p>
+                    </ng-template>
+                
+                </ng-template>
+                <div *ngIf = "jumpBackNode" style="background-color: #44e7cc" class="btn btn-secondary waves-effect waves-light treeListItem" 
+                [class.selected]="jumpBackNode.tree === selectedTree"
+                (click)="onSelectTree(jumpBackNode.tree, false)">
+                <b>Jump BACK to:<br> {{jumpBackNode.templateNode.nodeId}} </b> <br/>{{jumpBackNode.tree.parentDfd.label}}
+            </div>
+            </div>
+        </div>
+        <div style="grid-area: right; overflow: scroll;">
+            <div *ngIf = "selectedNode" class="container">
+                <h2>Documentation</h2>
+                <div *ngIf="selectedNode.tree.parentDfd.datafields != '' ">
+                    <p><b>User Information that is affected in this Element according to DFD Data Fields:</b><br> {{selectedNode.tree.parentDfd.datafields}}</p>
+                </div>
+                <div *ngIf="selectedNode.checkboxes.length>0">
+                    <p><b>Consider the Following Options when evaluating this Threat:</b></p>
+                    <div *ngFor = "let checkbox of selectedNode.checkboxes">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" [(ngModel)]="checkbox.choice">
+                            <label class="form-check-label" for="defaultCheck1">
+                            {{checkbox.text}} 
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="nodeComment" [(ngModel)]="selectedNode.comment" rows="3" cols="40" placeholder="What is your Reasoning for this Threat to be active/inactive? Any additional information you want to add?"></textarea>
+                <div class="form-check form-switch">
+                    <input style="height: 40px; width: 40px;" class="form-check-input" (click)="isThreatNow()" [checked]="selectedNode.state"  type="checkbox" id="flexSwitchCheckDefault">
+                    <label style="padding-left: 30px; padding-top: 13px;" class="form-check-label" for="flexSwitchCheckDefault"><b>This Threatnode is considered a Threat</b></label>
+                    <!--<div >
+                        <p>Automatic decision based on child nodes is : {{selectedNode.state}}</p>
+                    </div>-->
+                  </div>
+            </div>
+        </div>
+    </div>
+
+          <button style="position: fixed; right: 20px; bottom: 1px; z-index: 2000;" class="botnavitem btn btn-primary" type="button" (click)="generateMisuse()" ngbPopover ="generate Misusecases from your evaluated Trees" triggers = "mouseenter:mouseleave">Generate Misuse Cases</button>
+</body>
+</html>

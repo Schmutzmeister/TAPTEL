@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+      .head{
+        font-size: 25px;
+      }
+      .text{
+        font-size: 16px;
+      }
+      .panelbody{
+        padding: 30px;
+      }
+
+
+    </style>
+
+</head>
+<div class="panelbody container-fluid">
+    <h1>
+        <b>Welcome to (T)ool(A)ssisted(P)rivacy(T)hreat(E)licitation with (L)INDDUN</b>
+    </h1>
+    <div class="text">
+        TAPTEL will guide you through the threat modelling process with LINDDUN to find privacy threats in your designed system.
+        LINDDUN is a six-step methodology.<br> The first three steps, also called the LINDDUN core are supported in this tool.<br>
+        These 3 Steps are:<br>
+        <p style="padding-left: 40px;">
+            1. Modelling your System representation as a data flow diagram (DFD).<br>
+            2. Mapping the existing DFD Elements of your System to the LINDDUN threat categories.<br>
+            3. Elicit with the help of LINDDUN threat trees if certain threats are applicable on the the system.<br>
+        </p>
+        TAPTEL will help you with context-sensitive knowledge support and by automatically documenting your choices.
+        Below you will find a more detailed description of the different steps and how they are applied in TAPTEL.<br>
+        <br>
+        <b>Important Note: While TAPTEL works on a step by step basis and the output of one step is typically the input for the next step, some objects are loaded dynamically. You can always change the name and data fields of DFD elements (step 1) and the description of assumptions(step 2).</b>
+
+    
+        </div>
+    <p class="text" class='refrence'>
+        For further Information about the LINDDUN methodology, visit <a href="http://www.linddun.org">linddun.org</a>    
+    </p>
+  
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <span class= "head"> <b>Step 1: DFD-Import - Model your System Representation</b></span>
+          </ng-template>
+          <ng-template ngbPanelContent >
+            <div class="text">
+              LINDDUN needs a model of your system that can be analyzed. You will need to create a data flow diagram (DFD) of your systems components (data stores, processes, entities and data flows).
+              Taptel does not support the creation of such diagrams, but you can create the diagram in <a href="https://owasp.org/www-project-threat-dragon/">OWASP Threat Dragon</a>  and import the saved JSON File into TAPTEL.
+              <br>If you just want to try TAPTEL, click the 'Load Example Data' button in the left bottom corner to generate a DFD to work on.
+              <br><br>
+              The imported DFD will be shown to you. Each type of element has its own shape.<br> Entities = Hexagons<br> Data Stores = Rectangles <br>Processes = Circles<br> Flows = Edges between the Elements.<br>
+              You can change the elements properties by clicking them. 
+              <br><br>
+              You can enrich the DFD by adding data fields to each element. These fields represent information that is collected, sent, processed or stored about the data subject. They will have no consequences for the behavior of TAPTEL, but they will be documented for all threats that are associated with that DFD element.<br>
+              <br><b>Example:</b><br> For an authentication procedure you would add:<br> <b>Username <br> Password<br></b> to the Entity that represents the Client,<br> the flow that is the auth request,<br>
+               the process that digests the credentials<br> and the data store that saves them.
+               <br>
+            </div>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span class= "head"> <b>Step 2: Mapping - Map your DFD-Elements to LINDDUN Threat Categories</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div style= "padding-top: 30px, padding-left 30px;" class="text">
+                The second step is to map your elements to the LINDDUN threat categories. Each intersection between the four DFD element types (store, flow, entity, process) and threat categories is related to a threat tree.<br>
+                When the mapping table is initialized, the LINDDUN default mapping table is applied. You can change the mapping by activating/deactivating checkboxes. For disabled checkboxed an assumption will be generated where you can document your reasoning why this threat will not be evaluated.
+                It is also possible to disable all threats of a category for a selected DFD element type. <br>The supported threat categories are explained below:
+                <br><br>
+                <ngb-accordion #acc="ngbAccordion">
+                  <ngb-panel>
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>L - Linkability</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Linkability means being able to sufficiently distinguish whether 2 IOI (items of interest) are linked or not, even WITHOUT knowing the actual identity of the subject of the linkable IOI.<br>
+                        Not being able to hide the link between two or more actions/identities/pieces of information.<br>
+                        Examples are: anonymous letters written by the same person, web page visits by the same user, entries in two databases related to the same person, people related by a friendship link, etc.<br>
+                        Note that linkability often involves IOIs that are linked because they belong to the same subject, however, IOIs can also be linked based on properties (e.g. people visiting the same restaurant, people with a similar disease, etc.).<br>
+                        <br>
+                        Consequences<br>
+                            Can lead to identifiability (see Identifiability trees) when too much linkable information is combined<br>
+                            Can lead to inference: when “group data” is linkable, this can lead to societal harm, like discrimination (e.g. if an insurance company knows that people who live in a certain area get sick more often, they might increase their insurance cost for that target group)<br>
+                        <br>
+                        Impacted by<br>
+                            Data minimization: the less info is available, the better (see L_DS for more info) (+)<br>
+                            Identifiability: if the subject’s identity is known, all related data can obviously be linked (-)<br>
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  <ngb-panel>
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>I - Identifiability</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Identifiability means being able to sufficiently identify the subject within a set of subjects (i.e. the anonymity set).<br>
+                        Not being able to hide the link between the identity and the IOI (an action or piece of information).<br>
+                        Examples are: identifying the reader of a web page, the sender of an email, the person to whom an entry in a database relates, etc.<br>
+                        ​<br>
+                        Consequences<br>
+                            Can lead to severe privacy violations (when subject assumes he is anonymous)<br>
+                        ​<br>
+                        Impacted by<br>
+                            Data minimization: the less info is available, the better (see L_DS for more info) (+)<br>
+                            Linkability: the more information is linked, the higher the chance the combined data are identifiable (the more attributes are known, the smaller the anonymity set) (-)<br>
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>N - Non-Repudiation</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Non-repudiation is not being able to deny a claim.<br>
+                        The attacker can thus prove a user knows, has done or has said something. He can gather evidence to counter the claims of the repudiating party.<br>
+                        Typical non-repudiation examples exist in the context of anonymous online voting systems, and whistleblowing systems where plausible deniability is required.<br><br>
+                        Note that this threat is actually a security goal, as for certain systems (e.g. systems where payments are involved) non-repudiation is an important asset. This should however not result in any conflicts, as systems that require non-repudiation as a security goal, will not need plausible deniability for the same data/ subsystem.<br>
+                        <br>
+                        Consequences<br>
+                            Accountability: when a person is not able to repudiate an action or piece of information, he can be held accountable. (e.g. a whistleblower can be prosecuted)<br>
+                        ​<br>
+                        Impacted by<br>
+                            Identifiability: if data are identifiable, it will be hard to repudiate (-)
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>D - Detectability</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Detectability means being able to sufficiently distinguish whether an item of interest (IOI) exists or not.<br>
+                        Note that detectability does not imply information disclosure. Detectability concerns IOIs of which the content is not known (to the attacker).<br>
+                        ​<br>
+                        Consequences<br>
+                            Inference: by detecting whether an IOI exists, one can deduce certain information, even without actually having access to that information (e.g. by knowing that a celebrity has a health record in a rehab facility, you can deduce the celebrity has an addiction, even without having access to the actual health record)<br>
+
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>ID - Disclosure of Information</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Note that the information disclosure trees are not part of LINDDUN, but of Microsoft's STRIDE. As privacy depends on security, LINDDUN also includes STRIDE's Information Disclosure threats. 
+                        TAPTEL does not support the STRIDE Trees that are referenced in LINDDUN. It is adviced to excute a full security analysis in advance or in parallel.<br>
+                        <br>
+                        Common Disclosure of Information threats are for example missing encryption of the data flow or weak access control to the data store.
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>PID - Privacy Disclosure of Information</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                      Privacy Disclosure of Information Trees are novel in TAPTEL and can not be found in LINDDUN. While Information Disclosure threats are security related and imply that unauthorized access happened, data can also be shared to other trusted or untrusted parties when no security vulnerability exists.
+                      The PID trees exist to document which parties have access to the IOIs and aggregate these choices with other trees where they serve as an inbound node.<br>
+                      <br>
+                      There are three main trust levels:<br>
+                      <b>Insiders:</b> Mostly employees of the company running the system, that are mandatory to have access to the data for maintenance or development reasons.<br>
+                      <b>3rd Parties:</b> Either trusted or untrusted 3rd parties that receive the IOIs for a specific reason (e.g. research facility).<br>
+                      <b>Everyone:</b> Everyone else. If an Information Disclosure happened , the data controller is not able to limit who will have access to the leaked IOIs anymore. 
+                      Keep in mind this can happen anytime, since zero-day  exploits could make your system vulnerable without you knowing or an insider could be bribed to leak the data.
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>U - Unawareness</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Being unaware of the consequences of sharing information.<br>
+                        Often users are not aware of the impact of sharing data. This can be data shared to friends on facebook, but also personal information shared with other services (i.e. loyalty cards, online services, …)<br>
+                        Unawareness threats differ from data minimization threats (L_DS) in the sense that concerning data minimization it is the responsibility of the (back-end) system to minimize the data that are being stored, while for unawareness it is the provider of the data himself who is responsible and should be aware of the consequences of sharing (too much) information. Nevertheless, the system itself can support the users in making privacy-aware decisions.<br>
+                        Ideally, all users (data providers) should be clearly informed and educated of the consequences of sharing data using (online) services. The analysis can however not impact the entire society, hence these threats will only focus on the provisions the system itself can take to guide and educate the user concerning his data sharing.<br>
+                        <br>
+                        This threat only applies to an entity, as other DFD elements do not input additional information in the system.<br>
+                        <br>
+                        Consequences<br>
+                            Linkability/ identifiability: the more information is available, the easier it can be linked (and identified)<br>
+
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  <ngb-panel>
+                    
+                    <ng-template ngbPanelTitle>
+                      <span class= "head"> <b>N - Non Compliance</b></span>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <div class="text">
+                        Not being compliant with legislation, regulations, and corporate policies.<br>
+                        ​<br>
+                        Consequences<br>
+                            Can lead to fines (when violating legislation, or not adhering to the communicated corporate policies)<br>
+                            Can lead to loss of image, credibility, etc.<br>
+                        ​<br>
+                        Impacted by<br>
+                            Security officer/legal audit/… : a person responsible for the system's compliance (+)<br>
+                            Tampering with the policy data store: when the policy database is not tamper-proof, attackers can alter the access control policies and user consents of the system (-)<br>
+                    </div>
+                    </ng-template>
+                  </ngb-panel>
+                  </ngb-accordion>
+                  <br>
+                  When you are satisfied with your mapping, click 'Generate Threats' to mode on to step 3.<br>
+                  <br>
+                  <b>Warning: If you decide to change your mapping later in the process and 'Generate Threats' a second time, a new list of trees will be generated and  all your work of step 3 and 4 will be lost. If you realize that there is no need to analyize a certain threat tree, you can just leave the root node inactive and state your reasoning in the documentation text field. This will generate a new assumption for the output.</b>
+            </div>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span class= "head"> <b>Step 3: Threat Tree Analysis - Evaluate your mapping with interactive Threat Trees</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="text">
+                The third step is the most crucial step of TAPTEL. You will analyze the mapping of step 2 with the help of threat trees to determine if threats exist for that element. For each checkbox of the mapping table, a tree will be generated.
+                The trees are organized in a list on the left. Each tree has multiple nodes. You can select and evaluate each node separately .<br>
+                Two interactive windows will respond to the selection of a node. The left window will show you additional information about the node, and the right window will
+                help you documenting your reasoning why this node should be an active or inactive threat.<br>
+                <br>
+                Tree nodes can be linked to other trees. These linked nodes are called inbound nodes. You can recognize them by their round shape and purple outline<br>
+                If a node is an inbound node in other trees, it's called an outbound node in its native tree. Outbound nodes are marked by a blue outline.<br>
+                If an inbound node has multiple possible matching outbound nodes (which is mostly the case if the inbound node's DFD element type does not match the DFD element type of the tree), 
+                all possible matches will be displayed, and you have to decide for yourself if this inbound node should be active.<br>
+                <br>
+                When you decide that a threat node should be active, you can click on the 'This Threat node is considered a Threat' checkbox.<br>
+                TAPTEL will automatically propagate your decision through the tree and other connected trees. Keep in mind to document your reasoning why This
+                node should be active or inactive.<br>
+                <br>
+                When you are done with your analysis, you can click on 'Generate Misuse Cases' <br>
+                This will generate misuse cases  from your active trees and new assumptions from inactive nodes.<br>
+                You can now move on to step 4.<br>
+                <br>
+                <b>Warning: If you decide to go back and change the threat trees later in the process and 'Generate Misuse Cases' a second time, a new list of misuse cases will be generated and all your work (comments) of step 4 will be lost.</b>
+                
+              </div>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span class= "head"> <b>Step 4: Misuse Cases - Revisit your Misuse Cases and Assumptions</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="text">
+                In the last step, you can revisit all your generated threat modeling artifacts.<br>
+                <br>
+                <b>Misuse cases</b> will gather all nodes that lead to a tree becoming active, as well as your comments and choices on these nodes. Misuse cases will also carry possible Misactors (from PID trees) and data fields of the DFD element. You can leave a comment on this misuse case as a whole for later reference.<br>
+                <br>
+                <b>Assumptions</b> will show you your initial assumptions of step 2.<br> 
+                <br>
+                <b>New Assumptions</b> will be generated from inactive threat nodes that you commented on in step 3.<br>
+                <br>
+                When you are done commenting on the generated artifacts, you can move on to the 'Export PDF' tab to print your work.
+            </div>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <span class= "head"> <b>Export: Print your work</b></span>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="text">
+                You can print your Work to PDF. Just click on the 'print' button in the bottom left.
+            </div>
+            </ng-template>
+          </ngb-panel>
+      </ngb-accordion>
+
+
+
+        
+
+</div>

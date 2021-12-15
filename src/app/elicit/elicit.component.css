@@ -1,0 +1,152 @@
+.lw { font-size: 60px; }
+
+:root {
+    --bgelements-color: green;
+  }
+  
+.wrapper > div{
+  background: white;
+}
+.wrapper > div:nth-child(odd){
+  background: white;
+}
+body{
+  background: white;
+}
+
+
+.selectedThreat{
+    padding: 0;
+    margin: 0;
+    width: 100%-.5em;
+  background-color: var(--bgelements);
+  display: grid;
+  grid-row-gap: .5em;
+  grid-template-rows: 40% 60%;
+  
+  
+}
+.treeExplain{
+  background: #f2f2f2;
+  border-radius: 9px;
+  border: black 3px solid;
+  padding: 1em;
+  margin: 0;
+  width: 100%-2em;
+
+}
+.treenodetext{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap:  .5em;
+  height: 100%;
+  width: 100%;
+}
+
+.textDocument{
+    background: #f2f2f2;
+    border-radius: 9px;
+  padding: 1em;
+  height: 92%;
+  width: 96%;
+  
+}
+.Threats{
+  border-radius: 9px;
+  margin: 0;
+  list-style-type: none;
+  padding: 1em;
+  background: white;
+}
+
+
+
+
+.badge {
+    display: inline-block;
+    color: white;
+    padding: 0.3em 0.7em 0.3em 0.7em;
+    background-color:#405061;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+    border-radius: 4px 4px 4px 4px;
+  }
+
+
+li {
+  width: 90%;
+  position: relative;
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+li:hover {
+  left: .1em;
+  background-color: gray;
+}
+li.selected {
+  background-color: black;
+  color: white;
+}
+
+
+
+
+.treeViewContainer{
+  width: 100%;
+  height: 50vh;
+  display: block;
+}
+
+
+
+
+
+
+.bottomnav{
+  height: 40px;
+}
+
+.botnavitem{
+  position:sticky;
+  margin-right: 0px;
+  margin-left: 30px;
+  color: white;
+}
+.rowbotnav{
+padding-left: 80%;
+}
+
+.treeListItem{
+  color: black;
+}
+.active{
+  background-color: #d1d1d1;
+}
+.inactive{
+  background-color: #ff9999;
+}
+
+
+.site-layout {
+  position: fixed;
+  top: 80px;
+  display: grid;
+  background-color: #d1d1d1;
+  height: calc(100vh - 105px);
+  grid-template-columns: 350px 1fr 1fr;
+  grid-template-rows: 2fr 7fr;
+  grid-template-areas:
+  "sidebar    threats     threats"
+  "sidebar    left        right";
+}
+
+@media print{
+  
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+
+    <div *ngIf = "ds.mappingVisited == true && typesMapping2 !=null" class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table" id="table1">
+                    <thead class="tableheader">
+                        <tr class="ro">
+                            <th class="sticky-top headerCol" scope="col">#</th>
+                            <th class="sticky-top headerCol" scope="col">(L)inkability</th>
+                            <th class="sticky-top headerCol" scope="col">(I)dentifiability</th>
+                            <th class="sticky-top headerCol" scope="col">(N)on-Repudiation</th>
+                            <th class="sticky-top headerCol" scope="col">(D)etectability</th>
+                            <!--  <th class=headerCol scope="col">(D)isclosure of Information</th>
+                           -->
+                            <th class="sticky-top headerCol" scope="col">(U)nawareness</th>
+                            <th class="sticky-top headerCol" scope="col">(N)on-Compliance</th>
+                          </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let dfdType of dfdTypes">
+                            <tr style="background-color: lightgray" class="headertype"><h1><b>{{dfdType}}</b></h1>
+                                <td><input *ngIf = "defaultMapping[dfdType]['li']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'li')" [(ngModel)]="typesMapping2[dfdType]['li']" ngbPopover ="{{tcCommonName['li']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+                                <td><input *ngIf = "defaultMapping[dfdType]['id']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'id')" [(ngModel)]="typesMapping2[dfdType]['id']" ngbPopover ="{{tcCommonName['id']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+                                <td><input *ngIf = "defaultMapping[dfdType]['nr']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'nr')" [(ngModel)]="typesMapping2[dfdType]['nr']" ngbPopover ="{{tcCommonName['nr']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+                                <td><input *ngIf = "defaultMapping[dfdType]['de']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'de')" [(ngModel)]="typesMapping2[dfdType]['de']" ngbPopover ="{{tcCommonName['de']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+                               <!--
+                                   <td><input *ngIf = "defaultMapping[dfdType]['di']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'di')" [(ngModel)]="typesMapping2[dfdType]['di']"></td>
+                               -->
+                                <td><input *ngIf = "defaultMapping[dfdType]['ua']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'ua')" [(ngModel)]="typesMapping2[dfdType]['ua']" ngbPopover ="{{tcCommonName['ua']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+                                <td><input *ngIf = "defaultMapping[dfdType]['nc']" class="button button123" type="checkbox" name="isActive" (click)="changeTypeMapping(dfdType, 'nc')" [(ngModel)]="typesMapping2[dfdType]['nc']" ngbPopover ="{{tcCommonName['nc']}} {{dfdType.toUpperCase()}}" triggers = "mouseenter:mouseleave"></td>
+
+                            </tr>
+                            <tr *ngFor="let item of filterDfdElementsWrapper(dfdType)">
+                                <td><h2>{{item.label}}</h2></td>
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['li']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'li')" [(ngModel)]="item.mappingSelection.li" ngbPopover ="{{tcCommonName['li']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['id']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'id')" [(ngModel)]="item.mappingSelection.id" ngbPopover ="{{tcCommonName['id']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['nr']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'nr')" [(ngModel)]="item.mappingSelection.nr" ngbPopover ="{{tcCommonName['nr']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['de']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'de')" [(ngModel)]="item.mappingSelection.de" ngbPopover ="{{tcCommonName['de']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                                    <!--
+                                        <td><input *ngIf = "defaultMapping[item.eleType]['di']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'di')" [(ngModel)]="item.mappingSelection.di"></td>
+                                    -->
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['ua']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'ua')"[(ngModel)]="item.mappingSelection.ua" ngbPopover ="{{tcCommonName['ua']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                                    <td><input *ngIf = "defaultMapping[item.eleType]['nc']" class="button button123" type="checkbox" name="isActive" (click)="changeElementMapping(item, 'nc')"[(ngModel)]="item.mappingSelection.nc" ngbPopover ="{{tcCommonName['nc']}} {{dfdType.toUpperCase()}} {{item.label}}" triggers = "mouseenter:mouseleave"></td>
+                            </tr>
+                        </ng-container>
+
+                    </tbody>
+
+
+                  </table>
+                
+            </div>
+
+            <div class="col-md-4">
+                    <div class="container sticky-top assumptionBox" *ngIf = "assumptions">
+                        <div class="assumptionBoxItem" *ngFor="let assumption of assumptions">
+                            <label class="assumptionName"><b>A{{assumption.id}}-{{assumption.scope}} </b> <br/>{{assumption.name}}</label>
+                            <textarea class="assumptionInput" [(ngModel)]="assumption.description" rows="3" placeholder="What is your Reasoning for this Assumption?"></textarea>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+      <button style="position: fixed; right: 20px; bottom: 1px; z-index: 2000;" class="botnavitem btn btn-primary" type="button" (click)="genTrees()" ngbPopover ="Click this button to generate potential Threats from your Mapping (required for Step 3)" triggers = "mouseenter:mouseleave">Generate Threats</button>
+      <button style="position: fixed; margin-right: 100px; right: 100px; bottom: 1px; z-index: 2000;" class="botnavitem btn btn-primary" type="button" (click)="restoreDefaults()" ngbPopover ="Restore default mapping and delete all assumptions" triggers = "mouseenter:mouseleave">Restore Default Mapping</button>
+
+
+</body>
+</html>

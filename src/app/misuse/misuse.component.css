@@ -1,0 +1,45 @@
+
+/*
+.botnavitem{
+width: 100px;
+position:sticky;
+margin-right: 0px;
+margin-left: 30px;
+}
+
+
+li{
+    min-height: 10%;
+    cursor: pointer;
+}
+ul li:hover {
+    background-color: gray;
+  }
+li.selected {
+    background-color: orange;
+    color: white;
+  }
+
+  #element-comments {
+      width: 100%;
+  }
+
+.listenelement{
+    width: 100%;
+    text-align: left;
+    background-color: #a6c;
+}
+
+.container {
+    border: solid 3px black;
+    border-radius: 9px;
+    margin-top: 30px;
+}
+.col-md{
+    border: solid 3px black;
+    border-radius: 9px;
+}
+.ul.li{
+    align-items: center;
+}
+*/

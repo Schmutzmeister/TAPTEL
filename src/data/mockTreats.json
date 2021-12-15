@@ -1,0 +1,23 @@
+{
+    "threats":[
+
+        {
+            "treeId":"L_df",
+            "piiFields":["password","username","email","address"],
+            "label":"Register Account Request",
+            "active": true,
+            "touched": false
+        },
+        {
+            "treeId":"L_ds",
+            "piiFields":["password","username","email","address"],
+            "label":"Account Database",
+            "active": true,
+            "touched": false
+
+        }
+    ]
+}
+
+
+
